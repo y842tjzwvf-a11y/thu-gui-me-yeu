@@ -16,26 +16,15 @@ body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:c
 <h1 style="color:#8a2a4a;margin:10px 0">Chuc Mung 20/10</h1>
 <h2 style="color:#e91e63;margin:5px 0">Gui Me Yeu</h2>
 <p>Cam on me da luon yeu thuong con! Chuc me manh khoe, vui ve!</p>
-<button class="btn" onclick="playMusic()">Bam vao day co nhac ne me 💕</button>
-<p id="loi" style="display:none;color:#e91e63;font-weight:bold;margin-top:18px;font-size:18px">Con yeu me nhieu lam! ❤️<br><span style="font-size:14px">🎶 Nhac yeu thuong dang phat...</span></p>
+<button class="btn" onclick="playYeuMe()">Bam vao day co nhac ne me 💕</button>
+<p id="loi" style="display:none;color:#e91e63;font-weight:bold;margin-top:18px;font-size:20px">Con yeu me nhieu lam! ❤️<br><span style="font-size:14px">🎶 Me la tat ca cua con...</span></p>
 </div>
 <script>
 let ctx;
-function playMusic(){
- document.getElementById('loi').style.display='block';
- if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
- const notes=[261.63,329.63,392.00,523.25,392.00,329.63,261.63,329.63,392.00,523.25,659.25,523.25,392.00];
- let t=ctx.currentTime;
- notes.forEach((f,i)=>{
-  let o=ctx.createOscillator(); let g=ctx.createGain();
-  o.frequency.value=f; o.type='sine'; o.connect(g); g.connect(ctx.destination);
-  g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.6);
-  o.start(t); o.stop(t+0.6); t+=0.35;
- });
- // lap lai
- setTimeout(()=>{if(document.getElementById('loi').style.display==='block') playMusic()}, 5000);
- this.event.target.innerText='🎶 Dang phat nhac...';
-}
-</script>
-</body>
-</html>
+function playYeuMe(){
+ const loi=document.getElementById('loi');
+ loi.style.display='block';
+ event.target.innerText='💖 Con yeu me nhieu lam...';
+ // Nhac Piano
+ if(!ctx) ctx=new(window.AudioContext||window.webkitAudioContext)();
+ const notes=[392,440,494,523,587
