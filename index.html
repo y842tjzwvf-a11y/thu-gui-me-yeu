@@ -16,9 +16,23 @@ body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:c
 <h1 style="color:#8a2a4a">Chuc Mung 20/10</h1>
 <h2 style="color:#e91e63">Gui Me Yeu</h2>
 <p>Cam on me da luon yeu thuong con! Chuc me manh khoe, vui ve!</p>
-<button class="btn" onclick="document.getElementById('nhac').play();this.innerText='🎶 Dang phat nhac...';document.getElementById('loi').style.display='block'">Bam vao day co nhac ne me 💕</button>
-<p id="loi" style="display:none;color:#e91e63;font-weight:bold;margin-top:15px">Con yeu me nhieu lam! ❤️</p>
-<audio id="nhac" loop src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_8a7342a874.mp3"></audio>
+<button class="btn" id="btnNhac">Bam vao day co nhac ne me 💕</button>
+<p id="loi" style="display:none;color:#e91e63;font-weight:bold;margin-top:15px">Con yeu me nhieu lam! ❤️<br><span style="font-size:13px;color:#888">🎶 Nhac Piano du duong dang phat...</span></p>
+<audio id="nhac" loop preload="auto" playsinline>
+<source src="https://ia800905.m.archive.org/35/items/MoonlightSonata_201506/Moonlight%20Sonata.mp3" type="audio/mpeg">
+</audio>
 </div>
+<script>
+document.getElementById('btnNhac').addEventListener('click', function(){
+ var nhac = document.getElementById('nhac');
+ nhac.volume = 1.0;
+ nhac.play().then(()=>{
+   this.innerHTML = '🎶 Dang phat nhac...';
+   document.getElementById('loi').style.display='block';
+ }).catch(e=>{
+   alert('Ban hay bat loa to len nhe! Trinh duyet vua chan nhac, ban bam OK roi bam lai nut 1 lan nua nhe!');
+ });
+});
+</script>
 </body>
 </html>
