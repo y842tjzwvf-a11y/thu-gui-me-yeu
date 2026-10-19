@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gửi mẹ yêu ❤️</title>
+<style>
+body{
+  margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:20px;font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#ffafbd,#ffc3a0);
+  overflow:hidden;text-align:center;color:#7a2140;
+}
+.card{
+  background:rgba(255,255,255,0.9);padding:36px 28px;border-radius:26px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.15);max-width:420px;width:100%;z-index:2;
+  position:relative;
+}
+.heart-main{font-size:56px;animation:beat 1s infinite;display:inline-block}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+h1{font-size:30px;margin:12px 0}
+p{line-height:1.8;font-size:17px}
+button{
+  margin-top:18px;background:linear-gradient(90deg,#ff5f8a,#ff8fab);
+  color:white;border:none;padding:13px 26px;border-radius:50px;
+  font-size:17px;cursor:pointer;box-shadow:0 5px 15px rgba(255,95,138,0.4)
+}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.floating{position:fixed;top:100vh;animation:rise linear forwards;z-index:1}
+@keyframes rise{to{transform:translateY(-120vh) rotate(360deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="card">
+  <div class="heart-main">💖</div>
+  <h1>Gửi mẹ yêu của con</h1>
+  <p>
+    Cảm ơn mẹ đã luôn yêu thương, chăm sóc và hy sinh cho con.<br>
+    Con yêu mẹ nhiều hơn tất cả!<br><br>
+    Chúc mẹ luôn mạnh khỏe, vui vẻ và hạnh phúc mỗi ngày!
+  </p>
+  <button id="loveBtn">Nhấn vào đây nè mẹ 💌</button>
+  <p id="msg" style="display:none;margin-top:15px;font-weight:bold">Con yêu mẹ nhất trên đời! 🌸</p>
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_8d191f6d9b.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// 1. TIM BAY
+setInterval(()=>{
+  const el=document.createElement('div');
+  el.className='floating'; el.innerHTML=['💖','💗','🌸','💕'][Math.floor(Math.random()*4)];
+  el.style.left=Math.random()*100+'vw'; el.style.fontSize=(18+Math.random()*18)+'px';
+  el.style.animationDuration=(2+Math.random()*2)+'s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),4000);
+},250);
+
+// 2. NHẠC
+const music=document.getElementById('music');
+const btn=document.getElementById('loveBtn');
+btn.addEventListener('click',()=>{
+  document.getElementById('msg').style.display='block';
+  btn.innerHTML='Con yêu mẹ! 💖';
+  music.play();
+  launchFireworks();
+});
+
+// 3. PHÁO HOA
+const canvas=document.getElementById('fireworks');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+let particles=[];
+function launchFireworks(){
+  for(let i=0;i<6;i++){
+    setTimeout(()=>{
+      const x=Math.random()*canvas.width;
+      const y=Math.random()*canvas.height*0.5;
+      for(let j=0;j<30;j++){
+        particles.push({x,y,vx:(Math.random()-0.5)*8,vy:(Math.random()-0.5)*8,life:1,color:`hsl(${340+Math.random()*40},100%,65%)`});
+      }
+    },i*200);
+  }
+}
+(function animate(){
+  ctx.fillStyle='rgba(0,0,0,0.08)';ctx.globalCompositeOperation='destination-out';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.globalCompositeOperation='lighter';
+  particles.forEach((p,i)=>{
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.life-=0.015;
+    if(p.life<=0)particles.splice(i,1);
+    else{ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fill();}
+  });
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>
